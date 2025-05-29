@@ -1,0 +1,938 @@
+openapi: 3.0.0
+info:
+  title: AI Powered Books Management Project Documentation
+  version: 1.0.0
+  description: API documentation for Books Management Project with smart Search AI APIs documentation
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+servers:
+  - url: http://127.0.0.1:4000
+    description: local server
+  
+
+tags:
+- name: User Authentication
+  description: Endpoints related to user Authentication
+- name: User
+  description: Endpoints related to user 
+- name: AI-Powered DB Search
+  description: Endpoints related to smart book search on book db with use of AI.
+- name: Book
+  description: Endpoints related to Books
+- name: Review
+  description: Endpoints related to Review
+- name: Plan
+  description: Endpoints related to Plan  
+  
+
+
+paths:
+  /api/auth/login:
+    post:
+      tags:
+      - User Authentication
+      summary: This endpoint help to Login using credentials
+      description: This endpoint to login user using username and password. UserName can either email or mobile
+      requestBody:
+        description: Data required for login
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: username.
+                  example: jane@example.com
+                password:
+                  type: string
+                  description: The user's password.
+                  example: 123456
+              required:
+              - username
+              - password
+
+      responses:
+        '200':
+          description: Succesfull Response.
+        '400':
+          description: Bad Request.
+        '500':
+          description: Internal server error.  
+
+  /api/user/register:
+    post:
+      tags:
+        - User
+      summary: Register a new user
+      description: This API allows users to register with name, email, phone, and password.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - title
+                - name
+                - phone
+                - email
+                - password
+              properties:
+                title:
+                  type: string
+                  description: User's title (Mr, Mrs, Miss)
+                  example: Mr
+                name:
+                  type: string
+                  description: Full name of the user
+                  example: John Doe
+                phone:
+                  type: string
+                  description: Indian mobile number as a string
+                  example: "9876543210"
+                email:
+                  type: string
+                  format: email
+                  description: Unique email address
+                  example: john.doe@example.com
+                password:
+                  type: string
+                  description: Password (8–15 characters)
+                  example: Passw0rd123
+                address:
+                  type: object
+                  description: Optional address of the user
+                  properties:
+                    street:
+                      type: string
+                      example: "123 Main St"
+                    city:
+                      type: string
+                      example: "Delhi"
+                    pincode:
+                      type: string
+                      example: "110001"
+      responses:
+        '201':
+          description: User registered successfully
+        '400':
+          description: Invalid input or user already exists
+        '500':
+          description: Server error
+        
+
+  /api/plan:
+    post:
+      tags:
+        - Plan
+      security:
+        - BearerAuth: []
+      summary: This endpoint helps to create a subscription plan
+      description: This endpoint creates a new subscription plan for the application
+      requestBody:
+        description: Data required to create a new subscription plan
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                planName:
+                  type: string
+                  description: Name of the subscription plan
+                  example: Basic Plan
+                planDescription:
+                  type: string
+                  description: Description of the subscription plan
+                  example: [This plan provides access to basic features]
+                price:
+                  type: number
+                  description: Price of the plan
+                  example: 199.99
+                validityInDays:
+                  type: integer
+                  description: Validity of the plan in days
+                  example: 30
+      responses:
+        '200':
+          description: Plan created successfully.
+        '400':
+          description: Bad Request.
+        '500':
+          description: Internal server error.
+
+    get:
+      tags:
+        - Plan
+      security:
+        - BearerAuth: []
+      summary: This endpoint helps to get all plans
+      description: This endpoint returns a list of all subscription plans
+      responses:
+        '200':
+          description: Successfully fetched all plans.
+        '400':
+          description: Bad Request.
+        '500':
+          description: Internal server error.
+
+  /api/plan/{planId}:
+    get:
+      tags:
+        - Plan
+      security:
+        - BearerAuth: []
+      summary: This endpoint helps to get a specific plan
+      description: This endpoint fetches details of a plan by its ID
+      parameters:
+        - in: path
+          name: planId
+          required: true
+          schema:
+            type: string
+          description: ID of the subscription plan
+      responses:
+        '200':
+          description: Plan details fetched successfully.
+        '400':
+          description: Bad Request.
+        '404':
+          description: Plan not found.
+        '500':
+          description: Internal server error.
+
+    put:
+      tags:
+        - Plan
+      security:
+        - BearerAuth: []
+      summary: This endpoint helps to update a specific plan
+      description: This endpoint updates details of a subscription plan
+      parameters:
+        - in: path
+          name: planId
+          required: true
+          schema:
+            type: string
+          description: ID of the subscription plan
+      requestBody:
+        description: Data required to update the subscription plan
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                planName:
+                  type: string
+                  description: Name of the plan
+                  example: Pro Plan
+                planDescription:
+                  type: string
+                  description: Description of the plan
+                  example: [Full access with priority support]
+                price:
+                  type: number
+                  description: Price of the plan
+                  example: 499.99
+                validityInDays:
+                  type: integer
+                  description: Validity of the plan in days
+                  example: 90
+      responses:
+        '200':
+          description: Plan updated successfully.
+        '400':
+          description: Bad Request.
+        '404':
+          description: Plan not found.
+        '500':
+          description: Internal server error.
+
+    delete:
+      tags:
+        - Plan
+      security:
+        - BearerAuth: []
+      summary: This endpoint helps to delete a specific plan
+      description: This endpoint deletes a plan by its ID
+      parameters:
+        - in: path
+          name: planId
+          required: true
+          schema:
+            type: string
+          description: ID of the subscription plan
+      responses:
+        '200':
+          description: Plan deleted successfully.
+        '400':
+          description: Bad Request.
+        '404':
+          description: Plan not found.
+        '500':
+          description: Internal server error.
+          
+  /api/user/subscribe:
+    post:
+      tags:
+        - User
+      security:
+        - BearerAuth: []
+      summary: Subscribe to a subscription plan
+      description: Allows the currently logged-in user to subscribe to a subscription plan.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                planId:
+                  type: string
+                  description: ID of the subscription plan to subscribe to
+                  example: 64c915dbbfa13b45be21de5a
+      responses:
+        '200':
+          description: Successfully subscribed
+        '400':
+          description: Bad Request
+        '404':
+          description: Plan not found
+        '500':
+          description: Internal Server Error
+
+  /api/user/read-book:
+    post:
+      tags:
+        - User
+      summary: Add book to continue reading
+      description: This endpoint adds or updates a book in the user's continue reading list.
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - bookId
+              properties:
+                bookId:
+                  type: string
+                  description: The ID of the book being read.
+                  example: 64f9f84d201f5e3b3dd6a1d5
+      responses:
+        '200':
+          description: Book added to continue reading.
+        '400':
+          description: Bad request.
+        '500':
+          description: Internal server error.
+
+  /api/user/save-book:
+    post:
+      tags:
+        - User
+      summary: Save book for later
+      description: This endpoint saves a book in the user's reading list for later.
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - bookId
+              properties:
+                bookId:
+                  type: string
+                  description: The ID of the book to save.
+                  example: 64f9f84d201f5e3b3dd6a1d5
+      responses:
+        '200':
+          description: Book saved successfully.
+        '400':
+          description: Bad request.
+        '500':
+          description: Internal server error.
+
+  /api/user/save-book/{bookId}:
+    delete:
+      tags:
+        - User
+      summary: Remove book from saved list
+      description: This endpoint removes a saved book from the user's list.
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: bookId
+          required: true
+          schema:
+            type: string
+          description: The ID of the book to remove.
+      responses:
+        '200':
+          description: Book removed from saved list.
+        '400':
+          description: Bad request.
+        '500':
+          description: Internal server error.
+
+  /api/user/book-lists:
+    get:
+      tags:
+        - User
+      summary: Get reading and saved book lists
+      description: This endpoint returns the user's continue reading and saved books.
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Successfully fetched book lists.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  continueReading:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        bookId:
+                          type: object
+                        lastReadAt:
+                          type: string
+                          format: date-time
+                  savedBooks:
+                    type: array
+                    items:
+                      type: object
+        '500':
+          description: Internal server error.
+
+  /api/books:
+    post:
+      tags:
+        - Book
+      security:
+        - BearerAuth: []
+      summary: This endpoint helps to create a new book
+      description: This endpoint creates a new book with all required and optional information
+      requestBody:
+        description: Data required to create a new book
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: Title of the book
+                  example: The Great Gatsby
+                excerpt:
+                  type: string
+                  description: Short summary or excerpt of the book
+                  example: A novel written by American author F. Scott Fitzgerald.
+                userId:
+                  type: string
+                  description: ID of the user creating the book
+                  example: 64ae7c89755f5f001f63794a
+                ISBN:
+                  type: string
+                  description: ISBN number of the book
+                  example: 978-3-16-148410-0
+                category:
+                  type: string
+                  description: Main category of the book
+                  example: Fiction
+                subcategory:
+                  oneOf:
+                    - type: string
+                      example: Classic
+                    - type: array
+                      items:
+                        type: string
+                  description: Subcategory or genres of the book
+                releasedAt:
+                  type: string
+                  format: date
+                  description: Release date of the book
+                  example: 2023-07-24
+                author:
+                  type: string
+                  description: Name of the book's author
+                  example: F. Scott Fitzgerald
+                coverImage:
+                  type: string
+                  format: uri
+                  description: URL to the book cover image
+                  example: https://example.com/covers/gatsby.jpg
+                publisher:
+                  type: string
+                  description: Publisher of the book
+                  example: Scribner
+                avgRating:
+                  type: number
+                  format: float
+                  description: Average rating of the book
+                  example: 4.3
+                description:
+                  type: string
+                  description: Full description of the book
+                  example: The Great Gatsby is a 1925 novel by American writer F. Scott Fitzgerald...
+                mrp:
+                  type: number
+                  format: float
+                  description: Maximum retail price of the book
+                  example: 499.99
+                disconutedPrice:
+                  type: number
+                  format: float
+                  description: Discounted price of the book
+                  example: 299.99
+                language:
+                  type: array
+                  items:
+                    type: string
+                  description: Languages available for the book
+                  example: [ "English", "Spanish" ]
+                pages:
+                  type: integer
+                  description: Total number of pages
+                  example: 218
+      responses:
+        '200':
+          description: Book created successfully.
+        '400':
+          description: Bad Request.
+        '409':
+          description: Book with given title or ISBN already exists.
+        '500':
+          description: Internal server error.
+
+    get:
+      tags:
+        - Book
+      security:
+        - BearerAuth: []
+      summary: This endpoint helps to get all books
+      description: This endpoint returns a list of all available books
+      parameters:
+        - in: query
+          name: userId
+          schema:
+            type: string
+          description: Filter books by user ID
+        - in: query
+          name: category
+          schema:
+            type: string
+          description: Filter books by category
+        - in: query
+          name: subcategory
+          schema:
+            type: string
+          description: Filter books by subcategory
+      responses:
+        '200':
+          description: Successfully fetched all books.
+        '400':
+          description: Bad Request.
+        '500':
+          description: Internal server error.
+
+  /api/books/{bookId}:
+    get:
+      tags:
+        - Book
+      security:
+        - BearerAuth: []
+      summary: This endpoint helps to get a specific book
+      description: This endpoint fetches details of a book by its ID
+      parameters:
+        - in: path
+          name: bookId
+          required: true
+          schema:
+            type: string
+          description: ID of the book
+      responses:
+        '200':
+          description: Book details fetched successfully.
+        '400':
+          description: Bad Request.
+        '404':
+          description: Book not found.
+        '500':
+          description: Internal server error.
+
+    put:
+      tags:
+        - Book
+      security:
+        - BearerAuth: []
+      summary: This endpoint helps to update a specific book
+      description: This endpoint updates the book details using the book ID
+      parameters:
+        - in: path
+          name: bookId
+          required: true
+          schema:
+            type: string
+          description: ID of the book to be updated
+      requestBody:
+        description: Data required to update a book
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: Title of the book
+                  example: The Great Gatsby
+                excerpt:
+                  type: string
+                  description: Short summary or excerpt of the book
+                  example: A novel written by American author F. Scott Fitzgerald.
+                userId:
+                  type: string
+                  description: ID of the user creating the book
+                  example: 64ae7c89755f5f001f63794a
+                ISBN:
+                  type: string
+                  description: ISBN number of the book
+                  example: 978-3-16-148410-0
+                category:
+                  type: string
+                  description: Main category of the book
+                  example: Fiction
+                subcategory:
+                  oneOf:
+                    - type: string
+                      example: Classic
+                    - type: array
+                      items:
+                        type: string
+                  description: Subcategory or genres of the book
+                releasedAt:
+                  type: string
+                  format: date
+                  description: Release date of the book
+                  example: 2023-07-24
+                author:
+                  type: string
+                  description: Name of the book's author
+                  example: F. Scott Fitzgerald
+                coverImage:
+                  type: string
+                  format: uri
+                  description: URL to the book cover image
+                  example: https://example.com/covers/gatsby.jpg
+                publisher:
+                  type: string
+                  description: Publisher of the book
+                  example: Scribner
+                avgRating:
+                  type: number
+                  format: float
+                  description: Average rating of the book
+                  example: 4.3
+                description:
+                  type: string
+                  description: Full description of the book
+                  example: The Great Gatsby is a 1925 novel by American writer F. Scott Fitzgerald...
+                mrp:
+                  type: number
+                  format: float
+                  description: Maximum retail price of the book
+                  example: 499.99
+                disconutedPrice:
+                  type: number
+                  format: float
+                  description: Discounted price of the book
+                  example: 299.99
+                language:
+                  type: array
+                  items:
+                    type: string
+                  description: Languages available for the book
+                  example: [ "English", "Spanish" ]
+                pages:
+                  type: integer
+                  description: Total number of pages
+                  example: 218
+      responses:
+        '200':
+          description: Book updated successfully.
+        '400':
+          description: Bad Request.
+        '404':
+          description: Book not found.
+        '409':
+          description: Conflict. Title or ISBN may already exist.
+        '500':
+          description: Internal server error.
+
+    delete:
+      tags:
+        - Book
+      security:
+        - BearerAuth: []
+      summary: This endpoint helps to delete a specific book
+      description: This endpoint deletes a book by its ID
+      parameters:
+        - in: path
+          name: bookId
+          required: true
+          schema:
+            type: string
+          description: ID of the book to be deleted
+      responses:
+        '200':
+          description: Book deleted successfully.
+        '404':
+          description: Book not found.
+        '500':
+          description: Internal server error.
+
+  /api/books/{bookId}/review:
+    post:
+      tags:
+        - Review
+      summary: Create a review for a book
+      description: Creates a new review for the specified book
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: bookId
+          required: true
+          schema:
+            type: string
+          description: ID of the book to review
+      requestBody:
+        required: true
+        description: Review details
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reviewedBy:
+                  type: string
+                  description: Name of the person who reviewed the book (default is Guest)
+                  example: John Doe
+                rating:
+                  type: number
+                  description: Rating between 1 and 5
+                  example: 4
+                review:
+                  type: string
+                  description: Review message
+                  example: This book is fantastic and informative!
+      responses:
+        '201':
+          description: Review created successfully
+        '400':
+          description: Invalid input data
+        '404':
+          description: Book not found
+        '500':
+          description: Internal server error
+
+  /api/books/{bookId}/review/{reviewId}:
+    put:
+      tags:
+        - Review
+      summary: Update a book review
+      description: Updates an existing review for a given book and review ID
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: bookId
+          required: true
+          schema:
+            type: string
+          description: ID of the book
+        - in: path
+          name: reviewId
+          required: true
+          schema:
+            type: string
+          description: ID of the review to update
+      requestBody:
+        required: true
+        description: Fields to update in the review
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reviewedBy:
+                  type: string
+                  description: Updated reviewer name
+                  example: Jane Smith
+                rating:
+                  type: number
+                  description: Updated rating (1 to 5)
+                  example: 5
+                review:
+                  type: string
+                  description: Updated review content
+                  example: I changed my mind, this book is excellent!
+      responses:
+        '200':
+          description: Review updated successfully
+        '400':
+          description: Invalid input data
+        '404':
+          description: Book or review not found
+        '500':
+          description: Internal server error
+
+    delete:
+      tags:
+        - Review
+      summary: Delete a book review
+      description: Soft deletes a review associated with a specific book
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: bookId
+          required: true
+          schema:
+            type: string
+          description: ID of the book
+        - in: path
+          name: reviewId
+          required: true
+          schema:
+            type: string
+          description: ID of the review to delete
+      responses:
+        '200':
+          description: Review deleted successfully
+        '400':
+          description: Invalid bookId or reviewId
+        '404':
+          description: Book or review not found
+        '500':
+          description: Internal server error
+
+  /api/ai/chat-to-db:
+    post:
+      tags:
+        - AI-Powered DB Search
+      security:
+        - BearerAuth: []  
+      summary: Natural Language to MongoDB Query
+      description: >
+        This endpoint allows users to input natural language prompts, which are processed by an AI model to generate MongoDB queries. 
+        The response includes data from the specified MongoDB collection based on the inferred filter criteria. 
+        Currently supports `Book` and `Review` collections.
+        
+        **Example Use Cases**:
+        - "Show me all books published after 2020"
+        - "List reviews where the rating is less than 3"
+        - "Find all books written by J.K. Rowling"
+        - "Get reviews for books with the genre 'Fantasy'"
+        -  "Find all reviews where rating is greater than 4 "
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - prompt
+              properties:
+                prompt:
+                  type: string
+                  description: A natural language query or command (e.g., "Show books with more than 100 pages").
+                  example: "Find all books written by J.K. Rowling"
+
+      responses:
+        '200':
+          description: Data returned successfully based on AI-generated MongoDB query.
+        '400':
+          description: Invalid prompt or structure returned by the AI model.
+        '500':
+          description: Internal server error.
+
+  /api/user/dashboard:
+    get:
+      tags:
+        - User
+      security:
+        - BearerAuth: []  
+      summary: Get user dashboard data
+      description: Returns user info, plan expiry in days, continue reading books, and latest 10 books.
+      responses:
+        200:
+          description: Dashboard fetched successfully
+          content:
+            application/json:
+              example:
+                status: true
+                message: Dashboard fetched successfully
+                data:
+                  user:
+                    name: John Doe
+                    email: john@example.com
+                    subscription:
+                      startDate: 2024-06-01
+                      endDate: 2024-07-01
+                    planExpiresIn: 5
+                  continueReading:
+                    - _id: bookId1
+                      title: Book 1
+                  latestBooks:
+                    - _id: bookId2
+                      title: Book 2
+                      createdAt: "2024-07-25T00:00:00Z"
+        400:
+          description: Invalid userId
+        404:
+          description: User not found
+        500:
+          description: Internal Server Error   
+
+  /api/user/reviews:
+    get:
+      tags:
+        - User
+      security:
+        - BearerAuth: []
+      summary: This endpoint helps to get all the reviews by user
+      description: This endpoint fetches all the reviews by User
+      responses:
+        '200':
+          description: Book details fetched successfully.
+        '400':
+          description: Bad Request.
+        '404':
+          description: Book not found.
+        '500':
+          description: Internal server error.             
+          
+

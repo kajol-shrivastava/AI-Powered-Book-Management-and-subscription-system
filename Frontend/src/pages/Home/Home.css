@@ -1,0 +1,135 @@
+/* Container */
+.home-container {
+  max-width: 100%;
+  margin: 2rem auto;
+  /* padding: 0 1.5rem; */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #222;
+}
+
+/* Section titles */
+.section-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1.8rem;
+  text-align: center;
+  letter-spacing: 0.03em;
+}
+
+/* Categories grid */
+.category-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.3rem;
+  margin-bottom: 3rem;
+}
+
+/* Category card */
+.category-card {
+  flex: 0 1 140px;
+  height: 100px;
+  border-radius: 16px;
+  color: white;
+  font-weight: 800;
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.16);
+  user-select: none;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  text-align: center;
+}
+
+.category-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
+}
+
+.category-card.selected {
+  outline: 3px solid #fff;
+  box-shadow: 0 0 0 4px #222;
+}
+
+/* Book list container */
+.dashboard-container {
+  padding-bottom: 3rem;
+}
+
+/* Book grid with min 2 cards per row */
+.book-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 28px;
+  justify-items: center;
+}
+
+/* Book card */
+.book-card {
+  width: 100%;
+  max-width: 240px;
+  background-color: #fff;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  transition: box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.book-card:hover {
+  box-shadow: 0 14px 30px rgba(0,0,0,0.15);
+}
+
+/* Book image: consistent size */
+.book-card img.book-image {
+  width: 100%;
+  height: 220px;  /* fixed height for uniformity */
+  object-fit: cover;
+  display: block;
+}
+
+/* Book content padding */
+.book-card .book-content {
+  padding: 16px 18px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Book title */
+.book-card .book-title {
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+  color: #111;
+}
+
+/* Optional: Book author */
+.book-card .book-author {
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 12px;
+  font-style: italic;
+}
+
+/* Optional: Book description */
+.book-card .book-description {
+  font-size: 0.85rem;
+  color: #444;
+  flex-grow: 1;
+  margin-bottom: 10px;
+  line-height: 1.3;
+}
+
+/* Optional: Book price or other info */
+.book-card .book-price {
+  font-weight: 700;
+  font-size: 1rem;
+  color: #e63946; /* example accent color */
+  text-align: right;
+}

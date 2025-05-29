@@ -1,0 +1,16 @@
+.dashboard-container {
+  padding: 20px;
+  margin-bottom: 0px;
+  margin-top: 0px;
+}
+
+.book-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
+}
+
+.saved-books-container{
+  margin-top : 15px;
+}
+

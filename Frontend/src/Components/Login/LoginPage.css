@@ -1,0 +1,189 @@
+/* Container for the whole login page */
+.container {
+    display: flex;
+    height: 100vh;
+    width:100%;
+    margin: 0;
+    font-family: 'Montserrat', Helvetica, Arial, serif;
+    box-sizing: border-box; 
+  }
+  
+  /* Left Side */
+  .leftSide {
+    width: 65%;
+    background-color: #2A0031;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 20px; 
+    /* box-sizing: border-box; */
+  }
+  
+  .logo {
+    width: 180px;
+    margin-right: auto;
+    /* margin-top: 20px;  */
+  }
+  
+  .imageContainer {
+    flex-grow: 1;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; 
+    position: relative;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+  .backgroundImage {
+    max-width: 100%; 
+    max-height: 100%; 
+    height: auto; 
+    border-radius: 10px;
+    object-fit: cover; 
+  }
+  
+  .leftHeading {
+    max-width: 100%;
+  max-height: 100%; 
+  height: auto;
+  color: #fff;
+  object-fit: cover; 
+  }
+  
+  /* Right Side */
+  .rightSide {
+    width: 35%;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 30px;
+    box-sizing: border-box; 
+  }
+  
+  .rightHeading {
+    font-size: 24px;
+font-weight: 600;
+color:  rgb(94, 88, 115);
+    margin-bottom: 20px;
+  }
+  .rightHeading1 {
+    font-size: 11px;
+    color: rgb(110, 107, 123);
+    font-weight: 400;
+    margin-bottom: 40px;
+  }
+  
+  .form {
+    display: flex;
+    width: 100%;
+font-size: 14px;
+color: rgb(110, 107, 123);
+font-weight: 600;
+    flex-direction: column;
+  }
+  
+  .input {
+    padding: 10px;
+    font-size: 14px;
+    font-weight: 400;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 50px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .terms {
+    display: flex;
+    align-items: center;
+    font-size: 10px;
+    font-weight: 600;
+    color: rgb(110, 107, 123);
+    margin-bottom: 20px;
+  }
+  .tandc {
+    color: rgb(107, 18, 183);
+  }
+
+  
+  .loginButton {
+    padding: 5px 20px;
+    font-size: 16px;
+    color: #fff;
+    width: 200px;
+    background-color: rgb(107, 18, 183);
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+  }
+  
+  /* Mobile Styles */
+  @media (max-width: 768px) {
+    .container {
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+  
+    .leftSide {
+      width: 100%;
+        /* box-sizing: content-box; */
+      background-color: #2A0031;
+      border:2px solid #2A0031;
+      overflow-x: hidden;
+      padding: 20px;
+    }
+  
+    .imageContainer {
+      display: none; 
+    }
+  
+    .rightSide {
+      width: 100%;
+      padding: 20px;
+      overflow-x: hidden;
+
+    }
+  
+  
+  
+    .leftHeading {
+      display: none; /* Hide the heading on mobile screens */
+    }
+  }
+  
+
+  .password-container {
+    position: relative;
+    width: 100%;
+  }
+  
+  .input {
+    width: 100%;
+    padding-right: 40px; /* Space for the eye icon */
+  }
+  
+  .eye-icon {
+    position: absolute;
+    top: 70%;
+    right: 10px; /* Space the icon from the right edge */
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
+
+  .flex-row {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap; /* ensures responsiveness */
+  margin-bottom: 6px;
+}
+
+.flex-item {
+  flex: 1;
+  min-width: 200px;
+}
+  
