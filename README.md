@@ -27,7 +27,7 @@ root/
 
 ## 🚀 Getting Started
 
-### ⚙️ Backend Setup (`/server`)
+### ⚙️ Backend Setup (`/backend`)
 
 1. Clone the repo:
    ```bash
