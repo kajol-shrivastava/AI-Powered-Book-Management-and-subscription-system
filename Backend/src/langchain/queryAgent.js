@@ -76,6 +76,7 @@ If a user says something like "I want good books", interpret "good" as a higher 
 
 Handle everything smartly and return only clean, valid MongoDB filters in JSON format.
 Return only plain JSON — do NOT wrap the output in triple backticks or code blocks.
+Always make sure you return isDeleted false result we have soft delete in our system
 `;
 
 

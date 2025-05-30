@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import userModel from '../models/UserModel.js';
-import bookmodel from '../models/bookModel.js'
+import bookModel from '../models/bookModel.js'
 import  {isValid, isValidObjectId } from '../validator/validator.js';
 
 //================================================Authentication============================================//
@@ -22,7 +22,7 @@ const authentication=async (req,res,next)=>{
                 return res.status(500).send({status:false,message:err.message})
             }
             else{
-                
+                req.decodedtoken = decodedToken;
                 req.loginUserId=decodedToken.userId;
                 next()
             }
@@ -54,6 +54,7 @@ const createAuthorize=async function(req,res,next){
                 message: "user not found! please check userId"
             })
         }
+        
         let userOfToken=req.decodedtoken.userId
 
         if(userId!=userOfToken){
@@ -65,6 +66,7 @@ const createAuthorize=async function(req,res,next){
         }
     
         catch (err) {
+            console.error(err)
             res.status(500).send({ status: false, message: err.message });
         }
     }

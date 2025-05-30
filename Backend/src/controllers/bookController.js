@@ -31,7 +31,7 @@ const createBook = async function(req, res) {
         let {
         title, excerpt, userId, ISBN, category, subcategory, releasedAt,
         author, coverImage, publisher, avgRating, description,
-        mrp, disconutedPrice, language, pages
+        mrp, disconutedPrice, language, pages 
         } = data;
         let newBook={}
         newBook.userId=userId
@@ -43,7 +43,7 @@ const createBook = async function(req, res) {
         }
 
         title=title.trim()
-        let isTitleAlreadyExist=await bookModel.findOne({title:{$regex:title},isDeleted:false})
+        let isTitleAlreadyExist=await bookModel.findOne({title: { $regex: title, $options: 'i' },isDeleted:false})
         if(isTitleAlreadyExist){
             return res.status(409).send({ status: false, message: "book with this title already exist" }) 
         }
@@ -80,10 +80,6 @@ const createBook = async function(req, res) {
 
         newBook.category=category
 
-        //validating subcategory
-        // if(!isValid(subcategory)){
-        //     return res.status(400).send({status:false,message:"subcategory is required!"})
-        // }
            
        if(Array.isArray(subcategory)){
            let result=checkarray(subcategory)
@@ -99,9 +95,6 @@ const createBook = async function(req, res) {
 
        newBook.subcategory=subcategory
 
-       if(reviews){
-        return res.status(400).send({status:false,message:"you cannot set reviews"})
-       }
 
        //validating releasedAt
        if(!releasedAt){
@@ -128,6 +121,7 @@ const createBook = async function(req, res) {
         const newbook = await bookModel.create(newBook)
         res.status(201).send({status : true,message:"success",data : newbook})
     } catch (error) {
+        console.error(error)
         res.status(500).send({status : false,message : error.message})
     }
 }
@@ -226,7 +220,7 @@ const updateBookById = async (req, res) => {
                 return res.status(400).send({ status: false, message: "please send some value in title to update" })
             }
             title=title.trim()
-            let isTitleAlreadyExist=await bookModel.findOne({_id:bookId,title:{$regex:title,$options:"$i"},isDeleted:false})
+            let isTitleAlreadyExist=await bookModel.findOne({title: { $regex: title, $options: 'i' },isDeleted:false})
             
             if(isTitleAlreadyExist){
                 return res.status(409).send({ status: false, message: "book with this title already exist" }) 
@@ -281,6 +275,7 @@ const updateBookById = async (req, res) => {
         res.status(200).send({status : true,message:"success",data : data})
     } 
     catch (error) {
+        console.error(error)
         res.status(500).send({status : false,message : error.message})
     }
 }
