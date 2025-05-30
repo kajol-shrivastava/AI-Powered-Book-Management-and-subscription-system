@@ -10,15 +10,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kajol-shrivastava/Project-3-BookMangement.git"
+    "url": "git+https://github.com/kajol-shrivastava/Ai-powered-book-management-and-subscription-system.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/kajol-shrivastava/Project-3-BookMangement/issues"
+    "url": "https://github.com/kajol-shrivastava/Ai-powered-book-management-and-subscription-system/issues"
   },
-  "homepage": "https://github.com/kajol-shrivastava/Project-3-BookMangement#readme",
+  "homepage": "https://github.com/kajol-shrivastava/Ai-powered-book-management-and-subscription-system/blob/main/README.md",
   "dependencies": {
     "@langchain/google-genai": "^0.2.9",
     "cors": "^2.8.5",
